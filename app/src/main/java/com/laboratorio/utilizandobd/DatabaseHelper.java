@@ -13,24 +13,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     private static final String DATABASE_NAME = "Ejemplo_BD";
+
+    private static final int DATABASE_VERSION = 1;
     private static final String TABLE_NAME = "Usuarios";
-    private static final String COL_CED = "CedBD";
-    private static final String COL_NOMBRE = "Nombre";
-    private static final String COL_CELULAR = "Celular";
-    private static final String COL_CONTRASENA = "Contrasena";
+    private static final String COLUMN_CED = "Cedula";
+    private static final String COLUMN_NOMBRE = "Nombre";
+    private static final String COLUMN_CELULAR = "Celular";
+    private static final String COLUMN_CONTRASENA = "Contrasena";
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 1);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-      String createTableQuery="CREATE TABLE "+TABLE_NAME+" ("+
-              COL_CED+"TEXT PRIMARY KEY,"+
-              COL_NOMBRE+"TEXT,"+
-              COL_CELULAR+"TEXT,"+
-              COL_CONTRASENA+"TEXT)";
-      db.execSQL(createTableQuery);
+        String createTableQuery = "CREATE TABLE " + TABLE_NAME + " (" +
+                COLUMN_CED + " TEXT PRIMARY KEY, " +
+                COLUMN_NOMBRE + " TEXT, " +
+                COLUMN_CELULAR + " TEXT, " +
+                COLUMN_CONTRASENA + " TEXT)";
+        db.execSQL(createTableQuery);
     }
 
     @Override
@@ -39,15 +41,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         onCreate (db);
     }
 
-    public boolean Registrar (String cedula, String nombre, String celular, String contrasena) {
+    public long Registrar (String cedula, String nombre, String celular, String contrasena) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COL_CED, cedula);
-        contentValues.put(COL_NOMBRE, nombre);
-        contentValues.put(COL_CELULAR, celular);
-        contentValues.put(COL_CONTRASENA, contrasena);
-        long result = db.insert(TABLE_NAME, null, contentValues);
-        return result != -1;
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CED, cedula);
+        values.put(COLUMN_NOMBRE, nombre);
+        values.put(COLUMN_CELULAR, celular);
+        values.put(COLUMN_CONTRASENA, contrasena);
+        long result = db.insert(TABLE_NAME, null, values);
+        db.close();
+        return result;
     }
 
     public Cursor VerDatos() {

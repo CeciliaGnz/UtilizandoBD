@@ -6,7 +6,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Registrar extends AppCompatActivity {
@@ -30,22 +29,29 @@ public class Registrar extends AppCompatActivity {
         editTextPass = findViewById(R.id.password);
         buttonRegistrars = findViewById(R.id.btn_registrar);
         buttonVolver = findViewById(R.id.btn_volver);
+
         databaseHelper = new DatabaseHelper (this);
 
         buttonRegistrars.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 String cedula = editTextCed.getText().toString();
                 String nombre = editTextNombre.getText().toString();
                 String celular = editTextCel.getText().toString();
                 String contrasena = editTextPass.getText().toString();
 
-                boolean guardadoExitoso = databaseHelper.Registrar (cedula, nombre, celular, contrasena);
-                if (guardadoExitoso) {
-                    Toast.makeText(Registrar.this, "Registrado correctamente", Toast.LENGTH_SHORT).show();
-                    finish(); // Regresa al MainActivity
+
+
+                if (cedula.isEmpty() || nombre.isEmpty() || celular.isEmpty() || contrasena.isEmpty()) {
+                    Toast.makeText(Registrar.this, "Por favor, complete todos los campos", Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText( Registrar.this,"No se ha podido guardar correctamente", Toast.LENGTH_SHORT).show();
+                    long guardadoExitoso = databaseHelper.Registrar(cedula,nombre,celular,contrasena);
+                    if (guardadoExitoso != -1 ) {
+                        Toast.makeText(Registrar.this, "Registrado correctamente", Toast.LENGTH_SHORT).show();
+                        finish(); // Regresa al MainActivity
+                    } else {
+                        Toast.makeText(Registrar.this, "No se ha podido guardar correctamente", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
