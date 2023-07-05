@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,15 +17,25 @@ public class MainActivity extends AppCompatActivity {
 
         btn_register=(Button) findViewById(R.id.register);
         btn_info=(Button) findViewById(R.id.information);
+
+
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Intent intent=new Intent(MainActivity.this, Registrar.class);
+                    startActivity(intent);
+            }
+        });
+
+        btn_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this, Informacion.class);
+                startActivity(intent);
+            }
+        });
     }
 
-    public void setBtn_register(){
-        Intent intent=new Intent(MainActivity.this, Registrar.class);
-        startActivity(intent);
-    }
 
-    public void setBtn_info(){
-        Intent intent=new Intent(MainActivity.this, Informacion.class);
-        startActivity(intent);
-    }
+
 }

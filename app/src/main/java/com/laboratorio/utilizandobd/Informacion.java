@@ -2,6 +2,7 @@ package com.laboratorio.utilizandobd;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -42,7 +43,12 @@ public class Informacion extends AppCompatActivity {
             }
         }
         informacion.setText(stringBuilder.toString());
-    }
 
-    public void Volver() { finish();} // Regresa al MainActivity }
+        volver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
 }
